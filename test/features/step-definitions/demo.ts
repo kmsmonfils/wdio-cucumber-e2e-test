@@ -1,5 +1,4 @@
 import { Given, When, Then } from "@wdio/cucumber-framework";
-import chai from "chai";
 
 Given(/^Google page is opened$/, async function () {
   await browser.url("https://www.google.com");
@@ -24,12 +23,43 @@ Then(/^URL should match (.*)$/, async function (expectedURL) {
   chai.expect(currentUrl).to.equal(expectedURL);
 });
 
-/*
-Web Interactions
+/** 
+ Web Interactions
 */
-
 Given(/^A web page is opened$/, async function () {
-  await browser.url("");
-  await browser.setTimeout({ implicit: 15000, pageLoad: 10000 });
+  await browser.url("/inputs");
+  await browser.setTimeout({ implicit: 12000, pageLoad: 10000 });
   await browser.maximizeWindow();
+});
+
+When(/^Perform web interactions$/, async () => {
+  /**
+   * 1. Input box
+   * Actions:
+   * 1. Type into box
+   * 2. Clear the field and type or just add value
+   * 3. Click and type
+   * 4. Slowly typing
+   *
+   */
+  let number = 12345;
+  let strNumber = number.toString();
+
+  let element = await $(`input[type=number]`);
+  await element.click();
+  await element.scrollIntoView();
+
+  // await element.addValue(strNumber); // just ADDS value to string without clearing previous content
+  // await element.setValue(strNumber);
+  // for (let char of strNumber) {
+  //   await browser.keys(char)
+  // }
+  
+  for (let index = 0; index < strNumber.length; index++) {
+    await browser.pause(1000);
+
+    let char = strNumber.charAt(index);
+    await browser.keys(char);
+  }
+  await expect(element).toHaveValue(strNumber);
 });
