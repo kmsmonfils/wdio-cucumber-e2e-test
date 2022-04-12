@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "wdio": "wdio run wdio.conf.ts"
+        "demo": "wdio run wdio.conf.ts --cucumberOpts.tagExpression='@demo'",
+        "smoke": "wdio run wdio.conf.ts --cucumberOpts.tagExpression='@smoke'"
     },
     "keywords": [],
     "author": "",
@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@types/supertest": "^2.0.11",
+        "appium": "^1.22.3",
         "supertest": "^6.2.2"
     }
 }
